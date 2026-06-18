@@ -3,158 +3,327 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laboratorio de Biodiversidad</title>
+<title>Simulador de monitoreo de fauna silvestre</title>
 
 <style>
 body{
-    font-family:Arial,sans-serif;
-    background:#f4f7f4;
-    max-width:900px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg,#eef6ee,#f7faf7);
+    max-width:1050px;
     margin:auto;
-    padding:20px;
+    padding:25px;
+    color:#1a1a1a;
 }
 
 h1{
     text-align:center;
+    color:#1b6e2b;
+    font-size:42px;
+    margin-bottom:5px;
+}
+
+h2{
+    text-align:center;
     color:#2e7d32;
+    font-size:28px;
+    margin-top:0;
+}
+
+.descripcion{
+    text-align:center;
+    max-width:750px;
+    margin:20px auto 35px auto;
+    font-size:18px;
+    color:#444;
+}
+
+h3{
+    text-align:center;
+    font-size:25px;
+    font-weight:normal;
+    margin:30px 0 20px 0;
+}
+
+.contenedor{
+    display:grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap:25px;
+    align-items:start;
 }
 
 .card{
     background:white;
-    padding:15px;
-    margin:10px 0;
-    border-radius:10px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.12);
+}
+
+.fauna-card{
+    border-top:8px solid #2e7d32;
 }
 
 .species{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin:10px 0;
+    margin:16px 0;
+    font-size:19px;
+}
+
+.controls{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.numero{
+    min-width:25px;
+    text-align:center;
+    font-weight:bold;
 }
 
 button{
-    width:35px;
-    height:35px;
+    width:36px;
+    height:36px;
     border:none;
     border-radius:50%;
-    font-size:18px;
+    font-size:19px;
+    font-weight:bold;
     cursor:pointer;
+    color:white;
 }
 
 .plus{
-    background:#4caf50;
-    color:white;
+    background:#43a047;
 }
 
 .minus{
-    background:#f44336;
-    color:white;
+    background:#e53935;
 }
 
 .resultado{
     text-align:center;
-    font-size:1.2em;
-    margin-top:20px;
+}
+
+.grid-indices{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.indice-box{
+    background:#f3f8f3;
+    border-radius:12px;
+    padding:15px;
+}
+
+.indice-titulo{
+    font-size:17px;
+    color:#333;
 }
 
 .indice{
-    font-size:1.5em;
+    font-size:30px;
     color:#1565c0;
     font-weight:bold;
+    margin-top:5px;
 }
 
 .mensaje{
-    margin-top:15px;
+    margin-top:20px;
     font-weight:bold;
+    font-size:23px;
 }
 
 .explicacion{
-    font-size:0.95em;
+    font-size:18px;
     color:#444;
+    margin-top:12px;
+    line-height:1.4;
+}
+
+.barra-contenedor{
+    margin-top:20px;
+    text-align:left;
+}
+
+.barra-label{
     margin-top:10px;
+    font-size:15px;
+}
+
+.barra{
+    height:18px;
+    background:#e0e0e0;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.relleno{
+    height:100%;
+    background:#66bb6a;
+    width:0%;
+}
+
+.btn-reset{
+    width:auto;
+    border-radius:20px;
+    padding:8px 18px;
+    background:#1565c0;
+    color:white;
+    margin-top:20px;
+}
+
+footer{
+    text-align:center;
+    margin-top:50px;
+    color:#666;
+    font-size:14px;
+    border-top:1px solid #ddd;
+    padding-top:15px;
+}
+
+@media(max-width:800px){
+    .contenedor{
+        grid-template-columns:1fr;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
+    h2{
+        font-size:22px;
+    }
+
+    .grid-indices{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<h1>🌿 Laboratorio de Biodiversidad Chilena</h1>
+<h1>🌿 Simulador de monitoreo de fauna silvestre</h1>
+<h2>Diversidad alfa local</h2>
 
-<div class="card">
+<p class="descripcion">
+Modifica la abundancia de cada especie observada y analiza cómo cambian la riqueza,
+la abundancia total, Shannon y la dominancia de Simpson.
+</p>
+
+<div class="contenedor">
+
+<div>
+<h3>Fauna observada</h3>
+
+<div class="card fauna-card">
 
 <div class="species">
 <span>🦊 Culpeo</span>
-<div>
+<div class="controls">
 <button class="minus" onclick="cambiar('culpeo',-1)">-</button>
-<span id="culpeo">5</span>
+<span id="culpeo" class="numero">5</span>
 <button class="plus" onclick="cambiar('culpeo',1)">+</button>
 </div>
 </div>
 
 <div class="species">
 <span>🐭 Degú</span>
-<div>
+<div class="controls">
 <button class="minus" onclick="cambiar('degu',-1)">-</button>
-<span id="degu">5</span>
+<span id="degu" class="numero">5</span>
 <button class="plus" onclick="cambiar('degu',1)">+</button>
 </div>
 </div>
 
 <div class="species">
 <span>🦉 Tucúquere</span>
-<div>
+<div class="controls">
 <button class="minus" onclick="cambiar('tucuquere',-1)">-</button>
-<span id="tucuquere">5</span>
+<span id="tucuquere" class="numero">5</span>
 <button class="plus" onclick="cambiar('tucuquere',1)">+</button>
 </div>
 </div>
 
 <div class="species">
 <span>🦎 Lagarto</span>
-<div>
+<div class="controls">
 <button class="minus" onclick="cambiar('lagarto',-1)">-</button>
-<span id="lagarto">5</span>
+<span id="lagarto" class="numero">5</span>
 <button class="plus" onclick="cambiar('lagarto',1)">+</button>
 </div>
 </div>
 
 <div class="species">
 <span>🐦 Zorzal</span>
-<div>
+<div class="controls">
 <button class="minus" onclick="cambiar('zorzal',-1)">-</button>
-<span id="zorzal">5</span>
+<span id="zorzal" class="numero">5</span>
 <button class="plus" onclick="cambiar('zorzal',1)">+</button>
 </div>
 </div>
 
+<button class="btn-reset" onclick="reiniciar()">Reiniciar comunidad</button>
+
 </div>
+</div>
+
+<div>
+<h3>Índices de diversidad</h3>
 
 <div class="card resultado">
 
-<div>
-Shannon H':
+<div class="grid-indices">
+
+<div class="indice-box">
+<div class="indice-titulo">Abundancia total N</div>
+<div id="abundancia" class="indice"></div>
+</div>
+
+<div class="indice-box">
+<div class="indice-titulo">Riqueza S</div>
+<div id="riqueza" class="indice"></div>
+</div>
+
+<div class="indice-box">
+<div class="indice-titulo">Shannon H'</div>
 <div id="shannon" class="indice"></div>
 </div>
 
-<br>
-
-<div>
-Dominancia de Simpson D:
+<div class="indice-box">
+<div class="indice-titulo">Dominancia de Simpson D</div>
 <div id="simpson" class="indice"></div>
+</div>
+
 </div>
 
 <div id="mensaje" class="mensaje"></div>
 <div id="explicacion" class="explicacion"></div>
 
+<div class="barra-contenedor">
+<div class="barra-label">Culpeo</div><div class="barra"><div id="bar_culpeo" class="relleno"></div></div>
+<div class="barra-label">Degú</div><div class="barra"><div id="bar_degu" class="relleno"></div></div>
+<div class="barra-label">Tucúquere</div><div class="barra"><div id="bar_tucuquere" class="relleno"></div></div>
+<div class="barra-label">Lagarto</div><div class="barra"><div id="bar_lagarto" class="relleno"></div></div>
+<div class="barra-label">Zorzal</div><div class="barra"><div id="bar_zorzal" class="relleno"></div></div>
 </div>
+
+</div>
+</div>
+
+</div>
+
+<footer>
+Desarrollado por Jorge Leichtle © 2026
+</footer>
 
 <script>
 function cambiar(especie,valor){
     let elemento=document.getElementById(especie);
     let actual=parseInt(elemento.innerText);
-
     actual+=valor;
 
     if(actual<0){
@@ -165,22 +334,36 @@ function cambiar(especie,valor){
     calcular();
 }
 
-function calcular(){
-    let especies=[
-        parseInt(document.getElementById("culpeo").innerText),
-        parseInt(document.getElementById("degu").innerText),
-        parseInt(document.getElementById("tucuquere").innerText),
-        parseInt(document.getElementById("lagarto").innerText),
-        parseInt(document.getElementById("zorzal").innerText)
-    ];
+function reiniciar(){
+    let ids=["culpeo","degu","tucuquere","lagarto","zorzal"];
+    ids.forEach(id=>{
+        document.getElementById(id).innerText=5;
+    });
+    calcular();
+}
 
+function calcular(){
+
+    let datos={
+        culpeo:parseInt(document.getElementById("culpeo").innerText),
+        degu:parseInt(document.getElementById("degu").innerText),
+        tucuquere:parseInt(document.getElementById("tucuquere").innerText),
+        lagarto:parseInt(document.getElementById("lagarto").innerText),
+        zorzal:parseInt(document.getElementById("zorzal").innerText)
+    };
+
+    let especies=Object.values(datos);
     let N=especies.reduce((a,b)=>a+b,0);
+    let S=especies.filter(n=>n>0).length;
 
     if(N===0){
+        document.getElementById("abundancia").innerText="0";
+        document.getElementById("riqueza").innerText="0";
         document.getElementById("shannon").innerText="0.000";
         document.getElementById("simpson").innerText="0.000";
         document.getElementById("mensaje").innerText="Sin individuos en la comunidad";
-        document.getElementById("explicacion").innerText="";
+        document.getElementById("explicacion").innerText="Agrega individuos para comenzar la simulación.";
+        actualizarBarras(datos,N);
         return;
     }
 
@@ -195,6 +378,8 @@ function calcular(){
         }
     });
 
+    document.getElementById("abundancia").innerText=N;
+    document.getElementById("riqueza").innerText=S;
     document.getElementById("shannon").innerText=H.toFixed(3);
     document.getElementById("simpson").innerText=D.toFixed(3);
 
@@ -203,19 +388,33 @@ function calcular(){
 
     if(D>0.7){
         mensaje="🔴 Dominancia alta";
-        explicacion="Una especie concentra gran parte de los individuos. La comunidad es poco equitativa.";
+        explicacion="Una especie concentra gran parte de los individuos. Aunque pueda existir riqueza, la comunidad presenta baja equidad.";
     }
     else if(D>0.4){
         mensaje="🟡 Dominancia moderada";
-        explicacion="Existe cierta concentración de individuos en una o pocas especies.";
+        explicacion="Existe cierta concentración de individuos en una o pocas especies. La diversidad depende de cuán equilibradas estén las abundancias.";
     }
     else{
         mensaje="✅ Dominancia baja";
-        explicacion="Los individuos están distribuidos de forma más equilibrada entre las especies.";
+        explicacion="Los individuos están distribuidos de forma más equilibrada entre las especies. Esto suele asociarse a mayor diversidad.";
     }
 
     document.getElementById("mensaje").innerText=mensaje;
     document.getElementById("explicacion").innerText=explicacion;
+
+    actualizarBarras(datos,N);
+}
+
+function actualizarBarras(datos,N){
+    for(let especie in datos){
+        let porcentaje=0;
+
+        if(N>0){
+            porcentaje=(datos[especie]/N)*100;
+        }
+
+        document.getElementById("bar_"+especie).style.width=porcentaje+"%";
+    }
 }
 
 calcular();
