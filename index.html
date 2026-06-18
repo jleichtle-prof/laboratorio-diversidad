@@ -4,18 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Laboratorio de Biodiversidad</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#f4f7f4;max-width:900px;margin:auto;padding:20px;}
-h1{text-align:center;color:#2e7d32;}
-.card{background:white;padding:15px;margin:10px 0;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-.species{display:flex;justify-content:space-between;align-items:center;margin:10px 0;}
-button{width:35px;height:35px;border:none;border-radius:50%;font-size:18px;cursor:pointer;}
-.plus{background:#4caf50;color:white;}
-.minus{background:#f44336;color:white;}
-.resultado{text-align:center;font-size:1.2em;margin-top:20px;}
-.indice{font-size:1.5em;color:#1565c0;font-weight:bold;}
-.mensaje{margin-top:15px;font-weight:bold;}
-.explicacion{font-size:0.95em;color:#444;margin-top:10px;}
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f7f4;
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:#2e7d32;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.species{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:10px 0;
+}
+
+button{
+    width:35px;
+    height:35px;
+    border:none;
+    border-radius:50%;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.plus{
+    background:#4caf50;
+    color:white;
+}
+
+.minus{
+    background:#f44336;
+    color:white;
+}
+
+.resultado{
+    text-align:center;
+    font-size:1.2em;
+    margin-top:20px;
+}
+
+.indice{
+    font-size:1.5em;
+    color:#1565c0;
+    font-weight:bold;
+}
+
+.mensaje{
+    margin-top:15px;
+    font-weight:bold;
+}
+
+.explicacion{
+    font-size:0.95em;
+    color:#444;
+    margin-top:10px;
+}
 </style>
 </head>
 
@@ -25,15 +84,50 @@ button{width:35px;height:35px;border:none;border-radius:50%;font-size:18px;curso
 
 <div class="card">
 
-<div class="species"><span>🦊 Culpeo</span><div><button class="minus" onclick="cambiar('culpeo',-1)">-</button> <span id="culpeo">5</span> <button class="plus" onclick="cambiar('culpeo',1)">+</button></div></div>
+<div class="species">
+<span>🦊 Culpeo</span>
+<div>
+<button class="minus" onclick="cambiar('culpeo',-1)">-</button>
+<span id="culpeo">5</span>
+<button class="plus" onclick="cambiar('culpeo',1)">+</button>
+</div>
+</div>
 
-<div class="species"><span>🐭 Degú</span><div><button class="minus" onclick="cambiar('degu',-1)">-</button> <span id="degu">5</span> <button class="plus" onclick="cambiar('degu',1)">+</button></div></div>
+<div class="species">
+<span>🐭 Degú</span>
+<div>
+<button class="minus" onclick="cambiar('degu',-1)">-</button>
+<span id="degu">5</span>
+<button class="plus" onclick="cambiar('degu',1)">+</button>
+</div>
+</div>
 
-<div class="species"><span>🦉 Tucúquere</span><div><button class="minus" onclick="cambiar('tucuquere',-1)">-</button> <span id="tucuquere">5</span> <button class="plus" onclick="cambiar('tucuquere',1)">+</button></div></div>
+<div class="species">
+<span>🦉 Tucúquere</span>
+<div>
+<button class="minus" onclick="cambiar('tucuquere',-1)">-</button>
+<span id="tucuquere">5</span>
+<button class="plus" onclick="cambiar('tucuquere',1)">+</button>
+</div>
+</div>
 
-<div class="species"><span>🦎 Lagarto</span><div><button class="minus" onclick="cambiar('lagarto',-1)">-</button> <span id="lagarto">5</span> <button class="plus" onclick="cambiar('lagarto',1)">+</button></div></div>
+<div class="species">
+<span>🦎 Lagarto</span>
+<div>
+<button class="minus" onclick="cambiar('lagarto',-1)">-</button>
+<span id="lagarto">5</span>
+<button class="plus" onclick="cambiar('lagarto',1)">+</button>
+</div>
+</div>
 
-<div class="species"><span>🐇 Liebre</span><div><button class="minus" onclick="cambiar('liebre',-1)">-</button> <span id="liebre">5</span> <button class="plus" onclick="cambiar('liebre',1)">+</button></div></div>
+<div class="species">
+<span>🐦 Zorzal</span>
+<div>
+<button class="minus" onclick="cambiar('zorzal',-1)">-</button>
+<span id="zorzal">5</span>
+<button class="plus" onclick="cambiar('zorzal',1)">+</button>
+</div>
+</div>
 
 </div>
 
@@ -60,8 +154,13 @@ Dominancia de Simpson D:
 function cambiar(especie,valor){
     let elemento=document.getElementById(especie);
     let actual=parseInt(elemento.innerText);
+
     actual+=valor;
-    if(actual<0){actual=0;}
+
+    if(actual<0){
+        actual=0;
+    }
+
     elemento.innerText=actual;
     calcular();
 }
@@ -72,7 +171,7 @@ function calcular(){
         parseInt(document.getElementById("degu").innerText),
         parseInt(document.getElementById("tucuquere").innerText),
         parseInt(document.getElementById("lagarto").innerText),
-        parseInt(document.getElementById("liebre").innerText)
+        parseInt(document.getElementById("zorzal").innerText)
     ];
 
     let N=especies.reduce((a,b)=>a+b,0);
