@@ -386,17 +386,17 @@ function calcular(){
     let mensaje="";
     let explicacion="";
 
-    if(D>0.7){
+    if(D>=0.60){
         mensaje="🔴 Dominancia alta";
-        explicacion="Una especie concentra gran parte de los individuos. Aunque pueda existir riqueza, la comunidad presenta baja equidad.";
+        explicacion="Una especie concentra gran parte de los individuos. La comunidad presenta baja equidad, aunque pueda mantener cierta riqueza.";
     }
-    else if(D>0.4){
+    else if(D>=0.30){
         mensaje="🟡 Dominancia moderada";
-        explicacion="Existe cierta concentración de individuos en una o pocas especies. La diversidad depende de cuán equilibradas estén las abundancias.";
+        explicacion="Una o pocas especies concentran una proporción importante de los individuos. La comunidad no es completamente equitativa.";
     }
     else{
         mensaje="✅ Dominancia baja";
-        explicacion="Los individuos están distribuidos de forma más equilibrada entre las especies. Esto suele asociarse a mayor diversidad.";
+        explicacion="Los individuos están distribuidos de forma relativamente equilibrada entre las especies. Esto suele asociarse a mayor diversidad.";
     }
 
     document.getElementById("mensaje").innerText=mensaje;
