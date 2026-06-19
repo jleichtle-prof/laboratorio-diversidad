@@ -130,16 +130,35 @@ button{
     margin-top:5px;
 }
 
-.mensaje{
+.interpretaciones{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
     margin-top:20px;
+}
+
+.interpretacion-box{
+    background:#fafafa;
+    border-radius:12px;
+    padding:15px;
+    border-left:6px solid #2e7d32;
+}
+
+.interpretacion-box h4{
+    margin:0 0 10px 0;
+    font-size:18px;
+    color:#1b6e2b;
+}
+
+.mensaje{
     font-weight:bold;
-    font-size:23px;
+    font-size:21px;
 }
 
 .explicacion{
-    font-size:18px;
+    font-size:16px;
     color:#444;
-    margin-top:12px;
+    margin-top:10px;
     line-height:1.4;
 }
 
@@ -200,13 +219,17 @@ footer{
     .grid-indices{
         grid-template-columns:1fr;
     }
+
+    .interpretaciones{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<h1>🐾 Simulador de Monitoreo de Fauna Silvestre</h1>
+<h1>🐾 Simulador de monitoreo de fauna silvestre</h1>
 <h2>Diversidad alfa (local)</h2>
 
 <p class="descripcion">
@@ -300,8 +323,21 @@ la abundancia total, Shannon y la dominancia de Simpson.
 
 </div>
 
-<div id="mensaje" class="mensaje"></div>
-<div id="explicacion" class="explicacion"></div>
+<div class="interpretaciones">
+
+<div class="interpretacion-box">
+<h4>Interpretación de Shannon</h4>
+<div id="mensajeShannon" class="mensaje"></div>
+<div id="explicacionShannon" class="explicacion"></div>
+</div>
+
+<div class="interpretacion-box">
+<h4>Interpretación de Simpson</h4>
+<div id="mensajeSimpson" class="mensaje"></div>
+<div id="explicacionSimpson" class="explicacion"></div>
+</div>
+
+</div>
 
 <div class="barra-contenedor">
 <div class="barra-label">Culpeo</div><div class="barra"><div id="bar_culpeo" class="relleno"></div></div>
@@ -361,8 +397,13 @@ function calcular(){
         document.getElementById("riqueza").innerText="0";
         document.getElementById("shannon").innerText="0.000";
         document.getElementById("simpson").innerText="0.000";
-        document.getElementById("mensaje").innerText="Sin individuos en la comunidad";
-        document.getElementById("explicacion").innerText="Agrega individuos para comenzar la simulación.";
+
+        document.getElementById("mensajeShannon").innerText="Sin individuos";
+        document.getElementById("explicacionShannon").innerText="Agrega individuos para comenzar la simulación.";
+
+        document.getElementById("mensajeSimpson").innerText="Sin dominancia calculable";
+        document.getElementById("explicacionSimpson").innerText="La dominancia solo puede interpretarse cuando existe al menos un individuo.";
+
         actualizarBarras(datos,N);
         return;
     }
@@ -383,47 +424,43 @@ function calcular(){
     document.getElementById("shannon").innerText=H.toFixed(3);
     document.getElementById("simpson").innerText=D.toFixed(3);
 
-// INTERPRETACIÓN DE SHANNON
+    let mensajeShannon="";
+    let explicacionShannon="";
 
-let mensajeShannon="";
-let explicacionShannon="";
+    if(H>=1.5){
+        mensajeShannon="🟢 Diversidad alta";
+        explicacionShannon="La comunidad presenta alta diversidad, con varias especies y abundancias relativamente equilibradas.";
+    }
+    else if(H>=1.0){
+        mensajeShannon="🟡 Diversidad moderada";
+        explicacionShannon="La comunidad presenta diversidad intermedia. Existen varias especies, pero algunas son más abundantes que otras.";
+    }
+    else{
+        mensajeShannon="🔴 Diversidad baja";
+        explicacionShannon="La diversidad es baja. Hay pocas especies o una distribución muy desigual de los individuos.";
+    }
 
-if(H>=1.5){
-    mensajeShannon="🟢 Diversidad alta";
-    explicacionShannon="La comunidad presenta una alta diversidad, con varias especies y abundancias relativamente equilibradas.";
-}
-else if(H>=1.0){
-    mensajeShannon="🟡 Diversidad moderada";
-    explicacionShannon="La comunidad presenta una diversidad intermedia. Existen varias especies, pero algunas son más abundantes que otras.";
-}
-else{
-    mensajeShannon="🔴 Diversidad baja";
-    explicacionShannon="La diversidad es baja. Hay pocas especies o una distribución muy desigual de los individuos.";
-}
+    let mensajeSimpson="";
+    let explicacionSimpson="";
 
-// INTERPRETACIÓN DE SIMPSON
+    if(D>=0.60){
+        mensajeSimpson="🔴 Dominancia alta";
+        explicacionSimpson="Una especie concentra gran parte de los individuos. La comunidad presenta baja equidad.";
+    }
+    else if(D>=0.30){
+        mensajeSimpson="🟡 Dominancia moderada";
+        explicacionSimpson="Una o pocas especies concentran una proporción importante de los individuos.";
+    }
+    else{
+        mensajeSimpson="✅ Dominancia baja";
+        explicacionSimpson="Los individuos están distribuidos de forma relativamente equilibrada entre las especies.";
+    }
 
-let mensajeSimpson="";
-let explicacionSimpson="";
+    document.getElementById("mensajeShannon").innerText=mensajeShannon;
+    document.getElementById("explicacionShannon").innerText=explicacionShannon;
 
-if(D>=0.60){
-    mensajeSimpson="🔴 Dominancia alta";
-    explicacionSimpson="Una especie concentra gran parte de los individuos. La comunidad presenta baja equidad.";
-}
-else if(D>=0.30){
-    mensajeSimpson="🟡 Dominancia moderada";
-    explicacionSimpson="Una o pocas especies concentran una proporción importante de los individuos.";
-}
-else{
-    mensajeSimpson="✅ Dominancia baja";
-    explicacionSimpson="Los individuos están distribuidos de forma relativamente equilibrada entre las especies.";
-}
-
-document.getElementById("mensajeShannon").innerText=mensajeShannon;
-document.getElementById("explicacionShannon").innerText=explicacionShannon;
-
-document.getElementById("mensajeSimpson").innerText=mensajeSimpson;
-document.getElementById("explicacionSimpson").innerText=explicacionSimpson;
+    document.getElementById("mensajeSimpson").innerText=mensajeSimpson;
+    document.getElementById("explicacionSimpson").innerText=explicacionSimpson;
 
     actualizarBarras(datos,N);
 }
