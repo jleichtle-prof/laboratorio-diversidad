@@ -383,24 +383,47 @@ function calcular(){
     document.getElementById("shannon").innerText=H.toFixed(3);
     document.getElementById("simpson").innerText=D.toFixed(3);
 
-    let mensaje="";
-    let explicacion="";
+// INTERPRETACIÓN DE SHANNON
 
-    if(D>=0.60){
-        mensaje="🔴 Dominancia alta";
-        explicacion="Una especie concentra gran parte de los individuos. La comunidad presenta baja equidad, aunque pueda mantener cierta riqueza.";
-    }
-    else if(D>=0.30){
-        mensaje="🟡 Dominancia moderada";
-        explicacion="Una o pocas especies concentran una proporción importante de los individuos. La comunidad no es completamente equitativa.";
-    }
-    else{
-        mensaje="✅ Dominancia baja";
-        explicacion="Los individuos están distribuidos de forma relativamente equilibrada entre las especies. Esto suele asociarse a mayor diversidad.";
-    }
+let mensajeShannon="";
+let explicacionShannon="";
 
-    document.getElementById("mensaje").innerText=mensaje;
-    document.getElementById("explicacion").innerText=explicacion;
+if(H>=1.5){
+    mensajeShannon="🟢 Diversidad alta";
+    explicacionShannon="La comunidad presenta una alta diversidad, con varias especies y abundancias relativamente equilibradas.";
+}
+else if(H>=1.0){
+    mensajeShannon="🟡 Diversidad moderada";
+    explicacionShannon="La comunidad presenta una diversidad intermedia. Existen varias especies, pero algunas son más abundantes que otras.";
+}
+else{
+    mensajeShannon="🔴 Diversidad baja";
+    explicacionShannon="La diversidad es baja. Hay pocas especies o una distribución muy desigual de los individuos.";
+}
+
+// INTERPRETACIÓN DE SIMPSON
+
+let mensajeSimpson="";
+let explicacionSimpson="";
+
+if(D>=0.60){
+    mensajeSimpson="🔴 Dominancia alta";
+    explicacionSimpson="Una especie concentra gran parte de los individuos. La comunidad presenta baja equidad.";
+}
+else if(D>=0.30){
+    mensajeSimpson="🟡 Dominancia moderada";
+    explicacionSimpson="Una o pocas especies concentran una proporción importante de los individuos.";
+}
+else{
+    mensajeSimpson="✅ Dominancia baja";
+    explicacionSimpson="Los individuos están distribuidos de forma relativamente equilibrada entre las especies.";
+}
+
+document.getElementById("mensajeShannon").innerText=mensajeShannon;
+document.getElementById("explicacionShannon").innerText=explicacionShannon;
+
+document.getElementById("mensajeSimpson").innerText=mensajeSimpson;
+document.getElementById("explicacionSimpson").innerText=explicacionSimpson;
 
     actualizarBarras(datos,N);
 }
