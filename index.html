@@ -9,7 +9,7 @@
 body{
     font-family: Arial, sans-serif;
     background: linear-gradient(180deg,#eef6ee,#f7faf7);
-    max-width:1050px;
+    max-width:1150px;
     margin:auto;
     padding:25px;
     color:#1a1a1a;
@@ -31,35 +31,41 @@ h2{
  
 .descripcion{
     text-align:center;
-    max-width:750px;
+    max-width:800px;
     margin:20px auto 35px auto;
     font-size:18px;
     color:#444;
+    line-height:1.5;
 }
  
 h3{
     text-align:center;
+    color:#1b6e2b;
     font-size:25px;
-    font-weight:normal;
     margin:30px 0 20px 0;
 }
  
 .contenedor{
     display:grid;
-    grid-template-columns: 1fr 1.3fr;
+    grid-template-columns:1fr 1.35fr;
     gap:25px;
     align-items:start;
 }
  
 .card{
     background:white;
-    padding:20px;
-    border-radius:16px;
+    padding:22px;
+    border-radius:18px;
     box-shadow:0 4px 14px rgba(0,0,0,0.12);
 }
  
 .fauna-card{
     border-top:8px solid #2e7d32;
+}
+ 
+.resultado{
+    text-align:center;
+    border-top:8px solid #1565c0;
 }
  
 .species{
@@ -77,9 +83,10 @@ h3{
 }
  
 .numero{
-    min-width:25px;
+    min-width:28px;
     text-align:center;
     font-weight:bold;
+    font-size:19px;
 }
  
 button{
@@ -97,25 +104,30 @@ button{
     background:#43a047;
 }
  
+.plus:hover{
+    background:#2e7d32;
+}
+ 
 .minus{
     background:#e53935;
 }
  
-.resultado{
-    text-align:center;
+.minus:hover{
+    background:#c62828;
 }
  
 .grid-indices{
     display:grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
     gap:15px;
     margin-bottom:20px;
 }
  
 .indice-box{
     background:#f3f8f3;
-    border-radius:12px;
-    padding:15px;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
 }
  
 .indice-titulo{
@@ -124,7 +136,7 @@ button{
 }
  
 .indice{
-    font-size:30px;
+    font-size:34px;
     color:#1565c0;
     font-weight:bold;
     margin-top:5px;
@@ -138,10 +150,11 @@ button{
 }
  
 .interpretacion-box{
-    background:#fafafa;
-    border-radius:12px;
-    padding:15px;
-    border-left:6px solid #2e7d32;
+    background:#ffffff;
+    border-radius:16px;
+    padding:18px;
+    border-left:8px solid #2e7d32;
+    box-shadow:0 4px 14px rgba(0,0,0,0.10);
 }
  
 .interpretacion-box h4{
@@ -163,13 +176,15 @@ button{
 }
  
 .barra-contenedor{
-    margin-top:20px;
+    margin-top:25px;
     text-align:left;
 }
  
 .barra-label{
-    margin-top:10px;
+    margin-top:12px;
     font-size:15px;
+    font-weight:bold;
+    color:#333;
 }
  
 .barra{
@@ -183,36 +198,44 @@ button{
     height:100%;
     background:#66bb6a;
     width:0%;
+    transition:width 0.3s ease;
+}
+ 
+.acciones{
+    display:flex;
+    justify-content:center;
+    margin-top:25px;
 }
  
 .btn-reset{
     width:auto;
-    border-radius:20px;
-    padding:8px 18px;
+    border-radius:24px;
+    padding:12px 22px;
     background:#1565c0;
     color:white;
-    margin-top:20px;
+    font-size:17px;
+    font-weight:bold;
 }
  
 .btn-reset:hover{
     background:#0d47a1;
 }
  
-.acciones{
+.botones-finales{
     display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    margin-top:20px;
+    justify-content:center;
+    margin-top:35px;
+    margin-bottom:15px;
 }
  
 .btn-menu{
     display:inline-block;
     text-decoration:none;
-    border-radius:20px;
-    padding:8px 18px;
+    border-radius:24px;
+    padding:12px 22px;
     background:#2e7d32;
     color:white;
+    font-size:17px;
     font-weight:bold;
 }
  
@@ -222,11 +245,11 @@ button{
  
 footer{
     text-align:center;
-    margin-top:50px;
+    margin-top:25px;
     color:#666;
-    font-size:14px;
+    font-size:15px;
     border-top:1px solid #ddd;
-    padding-top:15px;
+    padding-top:18px;
 }
  
 @media(max-width:800px){
@@ -260,7 +283,7 @@ footer{
  
 <p class="descripcion">
 Modifica la abundancia de cada especie observada y analiza cómo cambian la riqueza,
-la abundancia total, Shannon y la dominancia de Simpson.
+la abundancia total, el índice de Shannon y la dominancia de Simpson.
 </p>
  
 <div class="contenedor">
@@ -316,12 +339,7 @@ la abundancia total, Shannon y la dominancia de Simpson.
 </div>
  
 <div class="acciones">
-<button class="btn-reset" onclick="reiniciar()">Reiniciar comunidad</button>
- 
-<a class="btn-menu"
-href="https://jleichtle-prof.github.io/laboratorio-fauna-silvestre/">
-🏠 Menú principal
-</a>
+<button class="btn-reset" onclick="reiniciar()">↻ Reiniciar simulación</button>
 </div>
  
 </div>
@@ -373,16 +391,31 @@ href="https://jleichtle-prof.github.io/laboratorio-fauna-silvestre/">
 </div>
  
 <div class="barra-contenedor">
-<div class="barra-label">Culpeo</div><div class="barra"><div id="bar_culpeo" class="relleno"></div></div>
-<div class="barra-label">Degú</div><div class="barra"><div id="bar_degu" class="relleno"></div></div>
-<div class="barra-label">Tucúquere</div><div class="barra"><div id="bar_tucuquere" class="relleno"></div></div>
-<div class="barra-label">Lagarto</div><div class="barra"><div id="bar_lagarto" class="relleno"></div></div>
-<div class="barra-label">Zorzal</div><div class="barra"><div id="bar_zorzal" class="relleno"></div></div>
+<div class="barra-label">Culpeo</div>
+<div class="barra"><div id="bar_culpeo" class="relleno"></div></div>
+ 
+<div class="barra-label">Degú</div>
+<div class="barra"><div id="bar_degu" class="relleno"></div></div>
+ 
+<div class="barra-label">Tucúquere</div>
+<div class="barra"><div id="bar_tucuquere" class="relleno"></div></div>
+ 
+<div class="barra-label">Lagarto</div>
+<div class="barra"><div id="bar_lagarto" class="relleno"></div></div>
+ 
+<div class="barra-label">Zorzal</div>
+<div class="barra"><div id="bar_zorzal" class="relleno"></div></div>
 </div>
  
 </div>
 </div>
  
+</div>
+ 
+<div class="botones-finales">
+<a class="btn-menu" href="https://jleichtle-prof.github.io/laboratorio-fauna-silvestre/">
+🏠 Menú principal
+</a>
 </div>
  
 <footer>
@@ -391,122 +424,125 @@ Desarrollado por Jorge Leichtle © 2026
  
 <script>
 function cambiar(especie,valor){
-    let elemento=document.getElementById(especie);
-    let actual=parseInt(elemento.innerText);
-    actual+=valor;
+    let elemento = document.getElementById(especie);
+    let actual = parseInt(elemento.innerText);
  
-    if(actual<0){
-        actual=0;
+    actual += valor;
+ 
+    if(actual < 0){
+        actual = 0;
     }
  
-    elemento.innerText=actual;
+    elemento.innerText = actual;
     calcular();
 }
  
 function reiniciar(){
-    let ids=["culpeo","degu","tucuquere","lagarto","zorzal"];
+    let ids = ["culpeo","degu","tucuquere","lagarto","zorzal"];
+ 
     ids.forEach(id=>{
-        document.getElementById(id).innerText=5;
+        document.getElementById(id).innerText = 5;
     });
+ 
     calcular();
 }
  
 function calcular(){
  
-    let datos={
-        culpeo:parseInt(document.getElementById("culpeo").innerText),
-        degu:parseInt(document.getElementById("degu").innerText),
-        tucuquere:parseInt(document.getElementById("tucuquere").innerText),
-        lagarto:parseInt(document.getElementById("lagarto").innerText),
-        zorzal:parseInt(document.getElementById("zorzal").innerText)
+    let datos = {
+        culpeo: parseInt(document.getElementById("culpeo").innerText),
+        degu: parseInt(document.getElementById("degu").innerText),
+        tucuquere: parseInt(document.getElementById("tucuquere").innerText),
+        lagarto: parseInt(document.getElementById("lagarto").innerText),
+        zorzal: parseInt(document.getElementById("zorzal").innerText)
     };
  
-    let especies=Object.values(datos);
-    let N=especies.reduce((a,b)=>a+b,0);
-    let S=especies.filter(n=>n>0).length;
+    let especies = Object.values(datos);
+    let N = especies.reduce((a,b)=>a+b,0);
+    let S = especies.filter(n=>n>0).length;
  
-    if(N===0){
-        document.getElementById("abundancia").innerText="0";
-        document.getElementById("riqueza").innerText="0";
-        document.getElementById("shannon").innerText="0.000";
-        document.getElementById("simpson").innerText="0.000";
+    if(N === 0){
+        document.getElementById("abundancia").innerText = "0";
+        document.getElementById("riqueza").innerText = "0";
+        document.getElementById("shannon").innerText = "0.000";
+        document.getElementById("simpson").innerText = "0.000";
  
-        document.getElementById("mensajeShannon").innerText="Sin individuos";
-        document.getElementById("explicacionShannon").innerText="Agrega individuos para comenzar la simulación.";
+        document.getElementById("mensajeShannon").innerText = "Sin individuos";
+        document.getElementById("explicacionShannon").innerText = "Agrega individuos para comenzar la simulación.";
  
-        document.getElementById("mensajeSimpson").innerText="Sin dominancia calculable";
-        document.getElementById("explicacionSimpson").innerText="La dominancia solo puede interpretarse cuando existe al menos un individuo.";
+        document.getElementById("mensajeSimpson").innerText = "Sin dominancia calculable";
+        document.getElementById("explicacionSimpson").innerText = "La dominancia solo puede interpretarse cuando existe al menos un individuo.";
  
         actualizarBarras(datos,N);
         return;
     }
  
-    let H=0;
-    let D=0;
+    let H = 0;
+    let D = 0;
  
     especies.forEach(n=>{
-        if(n>0){
-            let p=n/N;
-            H-=p*Math.log(p);
-            D+=p*p;
+        if(n > 0){
+            let p = n / N;
+            H -= p * Math.log(p);
+            D += p * p;
         }
     });
  
-    document.getElementById("abundancia").innerText=N;
-    document.getElementById("riqueza").innerText=S;
-    document.getElementById("shannon").innerText=H.toFixed(3);
-    document.getElementById("simpson").innerText=D.toFixed(3);
+    document.getElementById("abundancia").innerText = N;
+    document.getElementById("riqueza").innerText = S;
+    document.getElementById("shannon").innerText = H.toFixed(3);
+    document.getElementById("simpson").innerText = D.toFixed(3);
  
-    let mensajeShannon="";
-    let explicacionShannon="";
+    let mensajeShannon = "";
+    let explicacionShannon = "";
  
-    if(H>=1.5){
-        mensajeShannon="🟢 Diversidad alta";
-        explicacionShannon="La comunidad presenta alta diversidad, con varias especies y abundancias relativamente equilibradas.";
+    if(H >= 1.5){
+        mensajeShannon = "🟢 Diversidad alta";
+        explicacionShannon = "La comunidad presenta alta diversidad, con varias especies y abundancias relativamente equilibradas.";
     }
-    else if(H>=1.0){
-        mensajeShannon="🟡 Diversidad moderada";
-        explicacionShannon="La comunidad presenta diversidad intermedia. Existen varias especies, pero algunas son más abundantes que otras.";
-    }
-    else{
-        mensajeShannon="🔴 Diversidad baja";
-        explicacionShannon="La diversidad es baja. Hay pocas especies o una distribución muy desigual de los individuos.";
-    }
- 
-    let mensajeSimpson="";
-    let explicacionSimpson="";
- 
-    if(D>=0.60){
-        mensajeSimpson="🔴 Dominancia alta";
-        explicacionSimpson="Una especie concentra gran parte de los individuos. La comunidad presenta baja equidad.";
-    }
-    else if(D>=0.30){
-        mensajeSimpson="🟡 Dominancia moderada";
-        explicacionSimpson="Una o pocas especies concentran una proporción importante de los individuos.";
+    else if(H >= 1.0){
+        mensajeShannon = "🟡 Diversidad moderada";
+        explicacionShannon = "La comunidad presenta diversidad intermedia. Existen varias especies, pero algunas son más abundantes que otras.";
     }
     else{
-        mensajeSimpson="✅ Dominancia baja";
-        explicacionSimpson="Los individuos están distribuidos de forma relativamente equilibrada entre las especies.";
+        mensajeShannon = "🔴 Diversidad baja";
+        explicacionShannon = "La diversidad es baja. Hay pocas especies o una distribución muy desigual de los individuos.";
     }
  
-    document.getElementById("mensajeShannon").innerText=mensajeShannon;
-    document.getElementById("explicacionShannon").innerText=explicacionShannon;
+    let mensajeSimpson = "";
+    let explicacionSimpson = "";
  
-    document.getElementById("mensajeSimpson").innerText=mensajeSimpson;
-    document.getElementById("explicacionSimpson").innerText=explicacionSimpson;
+    if(D >= 0.60){
+        mensajeSimpson = "🔴 Dominancia alta";
+        explicacionSimpson = "Una especie concentra gran parte de los individuos. La comunidad presenta baja equidad.";
+    }
+    else if(D >= 0.30){
+        mensajeSimpson = "🟡 Dominancia moderada";
+        explicacionSimpson = "Una o pocas especies concentran una proporción importante de los individuos.";
+    }
+    else{
+        mensajeSimpson = "✅ Dominancia baja";
+        explicacionSimpson = "Los individuos están distribuidos de forma relativamente equilibrada entre las especies.";
+    }
+ 
+    document.getElementById("mensajeShannon").innerText = mensajeShannon;
+    document.getElementById("explicacionShannon").innerText = explicacionShannon;
+ 
+    document.getElementById("mensajeSimpson").innerText = mensajeSimpson;
+    document.getElementById("explicacionSimpson").innerText = explicacionSimpson;
  
     actualizarBarras(datos,N);
 }
  
 function actualizarBarras(datos,N){
     for(let especie in datos){
-        let porcentaje=0;
+        let porcentaje = 0;
  
-        if(N>0){
-            porcentaje=(datos[especie]/N)*100;
+        if(N > 0){
+            porcentaje = (datos[especie] / N) * 100;
         }
  
-        document.getElementById("bar_"+especie).style.width=porcentaje+"%";
+        document.getElementById("bar_" + especie).style.width = porcentaje + "%";
     }
 }
  
@@ -515,4 +551,3 @@ calcular();
  
 </body>
 </html>
-
