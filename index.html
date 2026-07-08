@@ -374,39 +374,41 @@ la abundancia total, el índice de Shannon y la dominancia de Simpson.
  
 </div>
  
+<div class="grafico-torta-contenedor">
+
+<h4>Frecuencia relativa de cada especie (%)</h4>
+
+<div class="torta-layout">
+
+<div id="graficoTorta" class="torta"></div>
+
+<div id="leyendaTorta" class="leyenda-torta">
+<div class="mensaje-torta">Agrega individuos para visualizar la frecuencia relativa de cada especie.</div>
+</div>
+
+</div>
+
+</div>
+
 <div class="interpretaciones">
- 
+
 <div class="interpretacion-box">
 <h4>Interpretación de Shannon</h4>
 <div id="mensajeShannon" class="mensaje"></div>
 <div id="explicacionShannon" class="explicacion"></div>
 </div>
- 
+
 <div class="interpretacion-box">
 <h4>Interpretación de Simpson</h4>
 <div id="mensajeSimpson" class="mensaje"></div>
 <div id="explicacionSimpson" class="explicacion"></div>
 </div>
- 
+
 </div>
- 
-<div class="barra-contenedor">
-<div class="barra-label">Culpeo</div>
-<div class="barra"><div id="bar_culpeo" class="relleno"></div></div>
- 
-<div class="barra-label">Degú</div>
-<div class="barra"><div id="bar_degu" class="relleno"></div></div>
- 
-<div class="barra-label">Tucúquere</div>
-<div class="barra"><div id="bar_tucuquere" class="relleno"></div></div>
- 
-<div class="barra-label">Iguana chilena</div>
-<div class="barra"><div id="bar_lagarto" class="relleno"></div></div>
- 
-<div class="barra-label">Zorzal</div>
-<div class="barra"><div id="bar_zorzal" class="relleno"></div></div>
+
 </div>
- 
+</div>
+
 </div>
 </div>
  
@@ -441,7 +443,7 @@ function reiniciar(){
     let ids = ["culpeo","degu","tucuquere","lagarto","zorzal"];
  
     ids.forEach(id=>{
-        document.getElementById(id).innerText = 5;
+        document.getElementById(id).innerText = 0;
     });
  
     calcular();
@@ -473,7 +475,7 @@ function calcular(){
         document.getElementById("mensajeSimpson").innerText = "Sin dominancia calculable";
         document.getElementById("explicacionSimpson").innerText = "La dominancia solo puede interpretarse cuando existe al menos un individuo.";
  
-        actualizarBarras(datos,N);
+        actualizarGraficoTorta(datos,N);
         return;
     }
  
@@ -531,19 +533,67 @@ function calcular(){
     document.getElementById("mensajeSimpson").innerText = mensajeSimpson;
     document.getElementById("explicacionSimpson").innerText = explicacionSimpson;
  
-    actualizarBarras(datos,N);
+    actualizarGraficoTorta(datos,N);
 }
  
-function actualizarBarras(datos,N){
-    for(let especie in datos){
-        let porcentaje = 0;
- 
-        if(N > 0){
-            porcentaje = (datos[especie] / N) * 100;
-        }
- 
-        document.getElementById("bar_" + especie).style.width = porcentaje + "%";
+function actualizarGraficoTorta(datos,N){
+
+    const nombres = {
+        culpeo:"Culpeo",
+        degu:"Degú",
+        tucuquere:"Tucúquere",
+        lagarto:"Iguana chilena",
+        zorzal:"Zorzal"
+    };
+
+    const colores = {
+        culpeo:"#ffab91",
+        degu:"#90caf9",
+        tucuquere:"#ffe082",
+        lagarto:"#a5d6a7",
+        zorzal:"#ce93d8"
+    };
+
+    const grafico = document.getElementById("graficoTorta");
+    const leyenda = document.getElementById("leyendaTorta");
+
+    if(N === 0){
+        grafico.style.background = "#e0e0e0";
+        leyenda.innerHTML = '<div class="mensaje-torta">Agrega individuos para visualizar la frecuencia relativa de cada especie.</div>';
+        return;
     }
+
+    let inicio = 0;
+    let segmentos = [];
+    leyenda.innerHTML = "";
+
+    for(let especie in datos){
+
+        const valor = datos[especie];
+        const porcentaje = (valor / N) * 100;
+        const fin = inicio + porcentaje;
+
+        if(valor > 0){
+            segmentos.push(`${colores[especie]} ${inicio}% ${fin}%`);
+        }
+
+        const item = document.createElement("div");
+        item.className = "item-leyenda";
+
+        item.innerHTML = `
+            <span>
+                <span class="color-leyenda" style="background:${colores[especie]}"></span>
+                ${nombres[especie]}
+            </span>
+            <strong>${porcentaje.toFixed(1)}%</strong>
+        `;
+
+        leyenda.appendChild(item);
+
+        inicio = fin;
+    }
+
+    grafico.style.background = `conic-gradient(${segmentos.join(", ")})`;
 }
  
 calcular();
